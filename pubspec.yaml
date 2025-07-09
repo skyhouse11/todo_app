@@ -33,6 +33,7 @@ dev_dependencies:
   lint: ^2.8.0
   custom_lint: ^0.7.5
   riverpod_lint: ^3.0.0-dev.16
+  freezed_lint: ^0.0.10
 
 flutter:
   uses-material-design: true
