@@ -1,5 +1,6 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -7,11 +8,11 @@ void main() {
       .setEndpoint('https://fra.cloud.appwrite.io/v1')
       .setProject('686d5a8500239ea077da');
 
-  runApp(const MyApp());
+  runApp(ProviderScope(child: const App()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   // This widget is the root of your application.
   @override
