@@ -1,12 +1,12 @@
-import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_app/views/auth/login_page.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final client = Client()
-      .setEndpoint('https://fra.cloud.appwrite.io/v1')
-      .setProject('686d5a8500239ea077da');
+
+  await dotenv.load(fileName: "appwrite_config.env");
 
   runApp(ProviderScope(child: const App()));
 }
@@ -14,7 +14,6 @@ void main() {
 class App extends StatelessWidget {
   const App({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,7 +21,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: Scaffold(),
+      home: LoginPage(),
     );
   }
 }
