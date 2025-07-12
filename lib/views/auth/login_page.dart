@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:todo_app/routing/routes.dart';
 import 'package:todo_app/utils/border_radius_size.dart';
 import 'package:todo_app/utils/paddings.dart';
 import 'package:todo_app/utils/regex_ext.dart';
 import 'package:todo_app/utils/use_error_dialog.dart';
 import 'package:todo_app/viewmodel/auth_viewmodel.dart';
+import 'package:todo_app/views/auth/widget/auth_form_field.dart';
 
 class LoginPage extends HookConsumerWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -19,8 +21,6 @@ class LoginPage extends HookConsumerWidget {
     final emailFocusNode = useFocusNode();
     final passwordFocusNode = useFocusNode();
 
-    final isPasswordVisible = useState(false);
-
     final authViewModel = ref.watch(authViewModelProvider);
     final authViewModelAsync = ref.watch(authViewModelProvider.notifier);
 
@@ -29,6 +29,8 @@ class LoginPage extends HookConsumerWidget {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+
         children: [
           Card(
             elevation: 4,
@@ -41,8 +43,9 @@ class LoginPage extends HookConsumerWidget {
               child: Form(
                 key: formKey,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    TextFormField(
+                    AuthFormField(
                       focusNode: emailFocusNode,
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
@@ -54,19 +57,12 @@ class LoginPage extends HookConsumerWidget {
                         }
                         return null;
                       },
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.email),
-                        labelText: 'Email',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                            BorderRadiusSize.medium,
-                          ),
-                        ),
-                      ),
                       controller: emailController,
+                      prefixIcon: Icon(Icons.email),
+                      labelText: 'Email',
                     ),
                     SizedBox(height: Paddings.medium),
-                    TextFormField(
+                    AuthFormField(
                       focusNode: passwordFocusNode,
                       keyboardType: TextInputType.visiblePassword,
                       validator: (value) {
@@ -78,31 +74,13 @@ class LoginPage extends HookConsumerWidget {
                         }
                         return null;
                       },
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.lock),
-                        labelText: 'Password',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                            BorderRadiusSize.medium,
-                          ),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            isPasswordVisible.value
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                          ),
-                          onPressed: () {
-                            isPasswordVisible.value = !isPasswordVisible.value;
-                          },
-                        ),
-                      ),
                       controller: passwordController,
-                      obscureText: !isPasswordVisible.value,
+                      prefixIcon: Icon(Icons.lock),
+                      labelText: 'Password',
+                      toObscureText: true,
                     ),
-                    SizedBox(height: Paddings.large),
-                    FilledButton.icon(
-                      icon: Icon(Icons.login),
+                    SizedBox(height: Paddings.medium),
+                    FilledButton(
                       onPressed: () async {
                         if (formKey.currentState?.validate() == true) {
                           emailFocusNode.unfocus();
@@ -112,16 +90,39 @@ class LoginPage extends HookConsumerWidget {
                             emailController.text,
                             passwordController.text,
                           );
+
+                          if (authViewModel.value != null) {
+                            print('User logged in');
+                          }
                         }
                       },
-                      label:
+                      child:
                           authViewModel.isLoading
                               ? CircularProgressIndicator()
                               : Text('Login'),
                     ),
+                    SizedBox(height: Paddings.medium),
+                    TextButton(
+                      onPressed: () {
+                        ForgotPasswordRoute().go(context);
+                      },
+                      child: Text('Forgot Password?'),
+                    ),
                   ],
                 ),
               ),
+            ),
+          ),
+          SizedBox(height: Paddings.large),
+          Text('Don\'t have an account?', textAlign: TextAlign.center),
+          SizedBox(height: Paddings.small),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Paddings.medium),
+            child: TextButton(
+              onPressed: () {
+                SignUpRoute().go(context);
+              },
+              child: Text('Sign Up'),
             ),
           ),
         ],

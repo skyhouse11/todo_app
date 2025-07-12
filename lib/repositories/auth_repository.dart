@@ -1,7 +1,6 @@
-import 'package:appwrite/appwrite.dart';
-import 'package:appwrite/models.dart';
-import 'package:todo_app/services/appwrite_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:todo_app/services/supabase_service.dart';
 
 part 'auth_repository.g.dart';
 
@@ -9,42 +8,39 @@ abstract class AuthRepository {
   Future<User> login(String email, String password);
   Future<User> register(String email, String password);
   Future<void> logout();
-  Future<User> getCurrentUser();
+  Future<User?> getCurrentUser();
+  Future<void> forgotPassword(String email);
 }
 
 class AuthRepositoryImpl implements AuthRepository {
-  final Account account;
+  final SupabaseClient client;
 
-  AuthRepositoryImpl({required this.account});
+  AuthRepositoryImpl({required this.client});
 
   @override
   Future<void> logout() async {
     try {
-      await account.deleteSession(sessionId: 'current');
-    } on AppwriteException catch (error) {
+      await client.auth.signOut();
+    } on AuthException catch (error) {
       throw _handleAuthError(error);
     }
   }
 
   @override
-  Future<User> getCurrentUser() async {
-    try {
-      return await account.get();
-    } on AppwriteException catch (error) {
-      throw _handleAuthError(error);
-    }
-  }
+  Future<User?> getCurrentUser() async => client.auth.currentUser;
 
   @override
   Future<User> login(String email, String password) async {
     try {
-      await account.createEmailPasswordSession(
+      final response = await client.auth.signInWithPassword(
         email: email,
         password: password,
       );
-
-      return await getCurrentUser();
-    } on AppwriteException catch (error) {
+      if (response.user == null) {
+        throw AuthException('Login failed');
+      }
+      return response.user!;
+    } on AuthException catch (error) {
       throw _handleAuthError(error);
     }
   }
@@ -52,35 +48,46 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<User> register(String email, String password) async {
     try {
-      await account.create(
-        userId: ID.unique(),
+      final response = await client.auth.signUp(
         email: email,
         password: password,
       );
-
-      return await login(email, password);
-    } on AppwriteException catch (error) {
+      if (response.user == null) {
+        throw AuthException('Registration failed');
+      }
+      return response.user!;
+    } on AuthException catch (error) {
       throw _handleAuthError(error);
     }
   }
 
-  String _handleAuthError(AppwriteException error) {
-    switch (error.code) {
-      case 401:
+  @override
+  Future<void> forgotPassword(String email) async {
+    try {
+      await client.auth.resetPasswordForEmail(email);
+    } on AuthException catch (error) {
+      throw _handleAuthError(error);
+    }
+  }
+
+  String _handleAuthError(AuthException error) {
+    switch (error.statusCode) {
+      case '401':
         return 'Invalid credentials';
-      case 409:
+      case '409':
         return 'User already exists';
-      case 400:
+      case '400':
         return 'Invalid input data';
       default:
-        return error.message ?? 'Authentication error occurred';
+        return error.message.isEmpty
+            ? 'Authentication error occurred'
+            : error.message;
     }
   }
 }
 
 @riverpod
 AuthRepository authRepository(Ref ref) {
-  final appwriteService = ref.read(appwriteServiceProvider);
-
-  return AuthRepositoryImpl(account: appwriteService.account);
+  final supabaseService = ref.read(supabaseServiceProvider);
+  return AuthRepositoryImpl(client: supabaseService.client);
 }

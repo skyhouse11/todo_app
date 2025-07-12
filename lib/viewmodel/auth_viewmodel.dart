@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:todo_app/repositories/auth_repository.dart';
-import 'package:appwrite/models.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'auth_viewmodel.g.dart';
 
