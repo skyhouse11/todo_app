@@ -31,7 +31,7 @@ class AppwriteService {
   void init() {
     getConfig();
 
-    _client.setEndpoint(endpoint).setProject(projectId);
+    _client = Client().setEndpoint(endpoint).setProject(projectId);
     _account = Account(_client);
     _databases = Databases(_client);
     _storage = Storage(_client);
@@ -45,19 +45,4 @@ class AppwriteService {
 @Riverpod(keepAlive: true)
 AppwriteService appwriteService(Ref ref) {
   return AppwriteService();
-}
-
-@riverpod
-Account account(Ref ref) {
-  return ref.watch(appwriteServiceProvider).account;
-}
-
-@riverpod
-Databases databases(Ref ref) {
-  return ref.watch(appwriteServiceProvider).databases;
-}
-
-@riverpod
-Storage storage(Ref ref) {
-  return ref.watch(appwriteServiceProvider).storage;
 }
