@@ -1,12 +1,12 @@
 # Implementation Plan
 
-- [-] 1. Set up project structure and core interfaces
+- [x] 1. Set up project structure and core interfaces
 
 - [x] 1.1 Create Flutter project folder structure
   - Create lib/features directory for feature-based organization
   - Create lib/shared directory for shared components and utilities
   - Create lib/core directory for app-wide configuration and constants
-  - Set up subdirectories: lib/core/constants, lib/core/theme, lib/core/router
+  - Set up subdirectories: lib/core/constants, lib/core/theme, lib/core/router, lib/core/providers
   - _Requirements: Foundation for all features_
 
 - [x] 1.2 Set up barrel exports for clean imports
@@ -14,55 +14,69 @@
   - Export commonly used classes and functions from barrel files
   - Set up lib/core/constants/index.dart for app constants
   - Create lib/shared/index.dart for shared utilities
+  - Create lib/core/index.dart as main core barrel export
   - _Requirements: Foundation for all features_
 
-- [ ] 1.3 Configure GoRouter for navigation
-  - Create lib/core/router/app_router.dart with basic route configuration
+- [x] 1.3 Configure GoRouter for navigation
+  - Create lib/core/router/route_paths.dart with route constants
   - Set up initial routes for authentication and main app screens
-  - Configure route guards and navigation structure
+  - Configure basic navigation structure with type-safe routing
+  - Implement TypedGoRoute for auth routes (login, signup, reset password)
+  - Generate router code with build_runner
   - _Requirements: Foundation for all features_
 
-- [ ] 1.4 Initialize Supabase client and environment configuration
+- [x] 1.4 Initialize Supabase client and environment configuration
   - Set up Supabase client initialization in main.dart
   - Configure environment-specific settings and error handling
+  - Connect router provider to main app
+  - Create placeholder auth screens (Login, SignUp, Reset Password)
   - _Requirements: Foundation for all features_
 
-- [ ] 2. Create core data models
-- [ ] 2.1 Implement Task model with Freezed
+- [ ] 2. Implement authentication system with Supabase
+
+- [ ] 2.1 Create authentication data models
+  - Create User model with Freezed for immutable data structure
+  - Create AuthState union for different authentication states
+  - Add JSON serialization for API communication
+  - _Requirements: User authentication and session management_
+
+- [ ] 2.2 Implement authentication providers
+  - Create AuthNotifier with Riverpod for state management
+  - Implement login, signup, logout, and password reset methods
+  - Handle authentication state persistence and session management
+  - Add error handling for authentication failures
+  - _Requirements: User authentication and session management_
+
+- [ ] 2.3 Build authentication UI components
+  - Design and implement login form with validation
+  - Create signup form with email verification flow
+  - Build password reset form and confirmation screens
+  - Add loading states and error handling in UI
+  - Implement responsive design for different screen sizes
+  - _Requirements: User authentication and session management_
+
+- [ ] 2.4 Implement authentication guards and navigation
+  - Update route guards to check authentication state
+  - Implement automatic redirection based on auth status
+  - Add protected routes for authenticated users
+  - Create splash screen for initial auth state checking
+  - _Requirements: User authentication and session management_
+
+- [ ] 3. Create core data models
+
+- [ ] 3.1 Implement Task model with Freezed
   - Create Task data model with all required fields (id, title, description, priority, status, dates, user_id)
   - Add JSON serialization with json_annotation
   - Include validation logic and constraints
   - Run code generation for Freezed and JSON serialization
-  - _Requirements: 2.1, 2.6_
+  - _Requirements: Task management and data persistence_
 
-- [ ] 2.2 Create User and supporting models
-  - Implement User model with preferences
-  - Create TaskPriority, TaskStatus enums
-  - Add Tag model for task categorization
-  - Generate code and ensure all models compile
-  - _Requirements: 1.1, 3.1, 3.2_
-
-- [ ] 3. Implement authentication system
-- [ ] 3.1 Set up Supabase authentication integration
-  - Configure Supabase client with environment variables
-  - Create AuthRepository with Riverpod 3.0 syntax (@riverpod)
-  - Implement sign up, sign in, sign out, and password reset methods
-  - Add authentication state management with AsyncNotifier
-  - _Requirements: 1.1, 1.2, 1.3, 1.5_
-
-- [ ] 3.2 Build authentication UI components
-  - Create login and signup forms with validation
-  - Implement password reset flow
-  - Add responsive authentication screens
-  - Include error handling and user feedback
-  - _Requirements: 1.1, 1.4, 1.6_
-
-- [ ] 3.3 Implement session management and routing guards
-  - Add automatic token refresh and session persistence
-  - Create authentication guards for protected routes
-  - Implement secure credential storage
-  - Set up route redirection based on auth state
-  - _Requirements: 1.6, 11.1, 11.3_
+- [ ] 3.2 Create User and supporting models
+  - Implement User model with preferences and profile information
+  - Create TaskPriority, TaskStatus enums with proper serialization
+  - Add Tag model for task categorization and organization
+  - Generate code and ensure all models compile correctly
+  - _Requirements: User management and task organization_
 
 - [ ] 4. Build core task management functionality
 - [ ] 4.1 Create TaskRepository with Supabase integration

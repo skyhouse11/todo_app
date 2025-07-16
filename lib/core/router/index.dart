@@ -1,2 +1,5 @@
 // Core router barrel export
-// TODO: Add router exports here when router is created
+export 'app_router.dart';
+export 'route_paths.dart';
+export 'route_guards.dart';
+export 'routes/auth_routes.dart';
