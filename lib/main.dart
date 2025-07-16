@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_app/routing/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +29,7 @@ class App extends ConsumerWidget {
         ),
         useMaterial3: true,
       ),
-      routerConfig: ref.watch(routerProvider),
+      
     );
   }
 }
