@@ -27,7 +27,7 @@
 ```dart
 // Function-based provider (new syntax)
 @riverpod
-Future<List<Todo>> todos(TodosRef ref) async {
+Future<List<Todo>> todos(Ref ref) async {
   // Implementation
 }
 
@@ -62,7 +62,7 @@ class TodosNotifier extends _$TodosNotifier {
 ### Example Structure
 ```dart
 @freezed
-class Todo with _$Todo {
+abstract class Todo with _$Todo {
   const factory Todo({
     required String id,
     required String title,

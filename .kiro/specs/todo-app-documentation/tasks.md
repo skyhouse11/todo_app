@@ -1,248 +1,246 @@
 # Implementation Plan
 
 - [ ] 1. Set up project structure and core interfaces
-  - Create Flutter project with proper folder structure (models, repositories, services, views)
-  - Set up dependency injection with Riverpod
-  - Configure build scripts and development environment
+  - Create Flutter project folder structure (lib/features, lib/shared, lib/core)
+  - Set up barrel exports for clean imports
+  - Configure GoRouter for navigation
+  - Initialize Supabase client in main.dart
   - _Requirements: Foundation for all features_
 
-- [ ] 2. Implement authentication system
-- [ ] 2.1 Set up Supabase authentication integration
-  - Configure Supabase client and authentication service
-  - Implement AuthRepository with sign up, sign in, sign out, and password reset
-  - Create authentication state management with Riverpod
-  - _Requirements: 1.1, 1.2, 1.3, 1.5_
-
-- [ ] 2.2 Build authentication UI components
-  - Create login, signup, and password reset forms with validation
-  - Implement responsive authentication screens
-  - Add error handling and user feedback for authentication flows
-  - _Requirements: 1.1, 1.4, 1.6_
-
-- [ ] 2.3 Implement session management and security
-  - Add automatic token refresh and session persistence
-  - Implement secure credential storage
-  - Create authentication guards for protected routes
-  - _Requirements: 1.6, 11.1, 11.3_
-
-- [ ] 3. Create core task management functionality
-- [ ] 3.1 Implement Task model and validation
-  - Create Task data model with all required fields
-  - Implement task validation logic and constraints
-  - Write unit tests for task model and validation
+- [ ] 2. Create core data models
+- [ ] 2.1 Implement Task model with Freezed
+  - Create Task data model with all required fields (id, title, description, priority, status, dates, user_id)
+  - Add JSON serialization with json_annotation
+  - Include validation logic and constraints
+  - Run code generation for Freezed and JSON serialization
   - _Requirements: 2.1, 2.6_
 
-- [ ] 3.2 Build TaskRepository with CRUD operations
-  - Implement TaskRepository interface with Supabase integration
-  - Add create, read, update, delete operations for tasks
-  - Implement local caching with Hive for offline support
-  - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 7.1, 7.3_
+- [ ] 2.2 Create User and supporting models
+  - Implement User model with preferences
+  - Create TaskPriority, TaskStatus enums
+  - Add Tag model for task categorization
+  - Generate code and ensure all models compile
+  - _Requirements: 1.1, 3.1, 3.2_
 
-- [ ] 3.3 Create task management UI components
-  - Build task list view with filtering and sorting capabilities
+- [ ] 3. Implement authentication system
+- [ ] 3.1 Set up Supabase authentication integration
+  - Configure Supabase client with environment variables
+  - Create AuthRepository with Riverpod 3.0 syntax (@riverpod)
+  - Implement sign up, sign in, sign out, and password reset methods
+  - Add authentication state management with AsyncNotifier
+  - _Requirements: 1.1, 1.2, 1.3, 1.5_
+
+- [ ] 3.2 Build authentication UI components
+  - Create login and signup forms with validation
+  - Implement password reset flow
+  - Add responsive authentication screens
+  - Include error handling and user feedback
+  - _Requirements: 1.1, 1.4, 1.6_
+
+- [ ] 3.3 Implement session management and routing guards
+  - Add automatic token refresh and session persistence
+  - Create authentication guards for protected routes
+  - Implement secure credential storage
+  - Set up route redirection based on auth state
+  - _Requirements: 1.6, 11.1, 11.3_
+
+- [ ] 4. Build core task management functionality
+- [ ] 4.1 Create TaskRepository with Supabase integration
+  - Implement TaskRepository with Riverpod 3.0 syntax
+  - Add CRUD operations (create, read, update, delete) for tasks
+  - Include real-time subscriptions for task updates
+  - Add error handling and retry logic
+  - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
+
+- [ ] 4.2 Build task management UI components
+  - Create task list view with ConsumerWidget/HookConsumerWidget
   - Implement task creation and editing forms
-  - Add task completion and deletion functionality
+  - Add task completion toggle and deletion functionality
+  - Include loading and error states with AsyncValue
   - _Requirements: 2.2, 2.3, 2.4, 2.5, 8.1, 8.2, 8.4_
 
-- [ ] 4. Implement task organization features
-- [ ] 4.1 Add priority and tagging system
-  - Implement priority levels (high, medium, low) in Task model
-  - Create tag management system with Tag model and repository
-  - Build UI components for priority selection and tag management
-  - _Requirements: 3.1, 3.2_
+- [ ] 4.3 Add basic task organization features
+  - Implement priority levels (high, medium, low) in UI
+  - Add basic filtering by status and priority
+  - Create simple search functionality for task titles
+  - Include sorting by creation date and priority
+  - _Requirements: 3.1, 3.3, 3.5_
 
-- [ ] 4.2 Build filtering and search functionality
-  - Implement task filtering by priority, tags, and status
-  - Add search functionality for task titles, descriptions, and tags
-  - Create advanced filter UI with multiple criteria support
+- [ ] 5. Implement tagging and advanced organization
+- [ ] 5.1 Build tag management system
+  - Create Tag model and TagRepository
+  - Implement tag CRUD operations
+  - Add tag assignment to tasks
+  - Build tag management UI components
+  - _Requirements: 3.2_
+
+- [ ] 5.2 Enhance filtering and search capabilities
+  - Add filtering by tags and multiple criteria
+  - Implement advanced search for descriptions and tags
+  - Create filter UI with multiple selection options
+  - Add persistent filter preferences
   - _Requirements: 3.3, 3.4_
 
-- [ ] 4.3 Add task sorting capabilities
-  - Implement sorting by creation date, due date, priority, and status
-  - Create sortable task list UI with user preferences
-  - Add persistent sort preferences in user settings
-  - _Requirements: 3.5_
-
-- [ ] 5. Implement due dates and notification system
-- [ ] 5.1 Add due date functionality to tasks
-  - Extend Task model with due date and time fields
-  - Implement due date selection UI components
-  - Add overdue task highlighting and visual indicators
+- [ ] 6. Add due dates and basic notifications
+- [ ] 6.1 Implement due date functionality
+  - Extend Task model with due date fields
+  - Add due date selection UI components
+  - Implement overdue task highlighting
+  - Create due date sorting and filtering
   - _Requirements: 4.1, 4.3_
 
-- [ ] 5.2 Build notification service
-  - Implement multi-platform notification service (FCM, Web Push, local)
-  - Create notification scheduling for task reminders
-  - Add user notification preferences and settings
+- [ ] 6.2 Build basic notification system
+  - Add local notification dependencies (flutter_local_notifications)
+  - Implement basic task reminder notifications
+  - Create notification scheduling for due dates
+  - Add user notification preferences
   - _Requirements: 4.2, 4.4_
 
-- [ ] 5.3 Implement reminder and overdue handling
-  - Create background service for notification scheduling
-  - Implement overdue task detection and continued reminders
-  - Add notification history and management features
-  - _Requirements: 4.5_
-
-- [ ] 6. Build advanced task features
-- [ ] 6.1 Implement subtask functionality
-  - Extend Task model to support parent-child relationships
-  - Create subtask creation and management UI
-  - Implement parent task completion logic requiring all subtasks complete
-  - _Requirements: 5.1, 5.4_
-
-- [ ] 6.2 Add recurring task system
-  - Create RecurrencePattern model and scheduling logic
-  - Implement automatic task generation for recurring patterns
-  - Build recurring task configuration UI
-  - _Requirements: 5.2, 5.5_
-
-- [ ] 6.3 Implement task dependencies
-  - Create dependency management system with circular dependency detection
-  - Add dependency visualization and management UI
-  - Implement completion blocking for dependent tasks
-  - _Requirements: 5.3_
-
-- [ ] 7. Create collaboration and sharing features
-- [ ] 7.1 Implement task sharing system
-  - Add sharing functionality to TaskRepository
-  - Create user invitation system with email notifications
-  - Implement shared task permissions and access control
-  - _Requirements: 6.1, 6.2_
-
-- [ ] 7.2 Build real-time collaboration
-  - Implement real-time task updates using Supabase subscriptions
-  - Add conflict resolution for concurrent task modifications
-  - Create real-time notification system for shared task changes
-  - _Requirements: 6.3, 6.5_
-
-- [ ] 7.3 Add task commenting system
-  - Create TaskComment model and repository
-  - Implement commenting UI with real-time updates
-  - Add comment notifications for task participants
-  - _Requirements: 6.4_
-
-- [ ] 8. Implement data synchronization
-- [ ] 8.1 Build offline data management
-  - Implement local data storage with Hive
-  - Create offline task management capabilities
-  - Add sync queue for offline changes
-  - _Requirements: 7.3, 7.1_
-
-- [ ] 8.2 Create synchronization service
-  - Implement SyncService with conflict resolution
-  - Add automatic sync on connectivity restoration
-  - Create manual sync triggers and progress tracking
-  - _Requirements: 7.2, 7.4_
-
-- [ ] 8.3 Add data backup and recovery
-  - Implement data backup mechanisms
-  - Create data corruption detection and recovery
-  - Add user data export functionality
-  - _Requirements: 7.5_
-
-- [ ] 9. Build responsive user interface
-- [ ] 9.1 Create responsive layout system
-  - Implement responsive design with breakpoints for mobile, tablet, desktop
-  - Create adaptive navigation and layout components
-  - Build consistent design system and theme
+- [ ] 7. Create responsive UI and navigation
+- [ ] 7.1 Implement responsive design system
+  - Create responsive breakpoints for mobile, tablet, desktop
+  - Build adaptive navigation components
+  - Implement consistent design system and theming
+  - Add responsive task list and form layouts
   - _Requirements: 8.3, 8.4_
 
-- [ ] 9.2 Implement performance optimizations
-  - Add lazy loading for large task lists
-  - Implement virtual scrolling for performance
-  - Create optimistic UI updates for immediate feedback
-  - _Requirements: 8.1, 8.2_
-
-- [ ] 9.3 Add error handling and user feedback
+- [ ] 7.2 Add error handling and user feedback
   - Implement global error handling system
   - Create user-friendly error messages and recovery options
   - Add loading states and progress indicators
-  - _Requirements: 8.5_
+  - Include optimistic UI updates for immediate feedback
+  - _Requirements: 8.5, 8.1, 8.2_
 
-- [ ] 10. Create analytics and productivity insights
-- [ ] 10.1 Implement analytics data collection
+- [ ] 8. Implement offline support and data persistence
+- [ ] 8.1 Add local storage with Hive
+  - Integrate Hive for local data storage
+  - Implement offline task management capabilities
+  - Create sync queue for offline changes
+  - Add data persistence for user preferences
+  - _Requirements: 7.1, 7.3_
+
+- [ ] 8.2 Build synchronization service
+  - Create SyncService with conflict resolution
+  - Implement automatic sync on connectivity restoration
+  - Add manual sync triggers and progress tracking
+  - Handle sync conflicts with user choice or last-write-wins
+  - _Requirements: 7.2, 7.4_
+
+- [ ] 9. Add advanced task features (Phase 2)
+- [ ] 9.1 Implement subtask functionality
+  - Extend Task model to support parent-child relationships
+  - Create subtask creation and management UI
+  - Implement parent task completion logic requiring all subtasks complete
+  - Add subtask progress visualization
+  - _Requirements: 5.1, 5.4_
+
+- [ ] 9.2 Build recurring task system
+  - Create RecurrencePattern model and scheduling logic
+  - Implement automatic task generation for recurring patterns
+  - Build recurring task configuration UI
+  - Add recurring task management and editing
+  - _Requirements: 5.2, 5.5_
+
+- [ ] 9.3 Add task dependencies
+  - Create dependency management system with circular dependency detection
+  - Add dependency visualization and management UI
+  - Implement completion blocking for dependent tasks
+  - Create dependency graph visualization
+  - _Requirements: 5.3_
+
+- [ ] 10. Implement collaboration features (Phase 3)
+- [ ] 10.1 Build task sharing system
+  - Add sharing functionality to TaskRepository
+  - Create user invitation system with email notifications
+  - Implement shared task permissions and access control
+  - Add shared task UI indicators and management
+  - _Requirements: 6.1, 6.2_
+
+- [ ] 10.2 Add real-time collaboration
+  - Implement real-time task updates using Supabase subscriptions
+  - Add conflict resolution for concurrent task modifications
+  - Create real-time notification system for shared task changes
+  - Include user presence indicators for shared tasks
+  - _Requirements: 6.3, 6.5_
+
+- [ ] 10.3 Create task commenting system
+  - Create TaskComment model and repository
+  - Implement commenting UI with real-time updates
+  - Add comment notifications for task participants
+  - Include comment history and management
+  - _Requirements: 6.4_
+
+- [ ] 11. Add productivity insights and analytics (Phase 4)
+- [ ] 11.1 Implement basic analytics data collection
   - Create ProductivityMetrics model and tracking system
   - Implement task completion and timing data collection
   - Add analytics data aggregation and storage
+  - Create basic productivity statistics
   - _Requirements: 9.1, 9.2_
 
-- [ ] 10.2 Build productivity insights engine
-  - Implement trend analysis and pattern recognition
-  - Create productivity recommendations system
-  - Add peak performance time identification
-  - _Requirements: 9.3, 9.4, 9.5_
-
-- [ ] 10.3 Create analytics dashboard
-  - Build analytics UI with charts and visualizations
+- [ ] 11.2 Build productivity insights dashboard
+  - Create analytics UI with basic charts and visualizations
   - Implement productivity reports and statistics
-  - Add personalized productivity recommendations display
-  - _Requirements: 9.2, 9.3_
+  - Add trend analysis and pattern recognition
+  - Include personalized productivity recommendations
+  - _Requirements: 9.2, 9.3, 9.4, 9.5_
 
-- [ ] 11. Implement import/export functionality
-- [ ] 11.1 Build data import system
-  - Create ImportService supporting CSV, JSON, and popular todo app formats
-  - Implement data validation and duplicate detection
-  - Add import progress tracking and error reporting
-  - _Requirements: 10.1, 10.4, 10.5_
-
-- [ ] 11.2 Create data export functionality
-  - Implement multiple export formats (CSV, JSON, calendar)
+- [ ] 12. Implement import/export functionality (Phase 5)
+- [ ] 12.1 Build data export system
+  - Implement multiple export formats (CSV, JSON)
   - Add selective export by date range, tags, or status
-  - Create full data backup export with encryption
+  - Create full data backup export
+  - Include export progress tracking
   - _Requirements: 10.2_
 
-- [ ] 11.3 Add external service integration
-  - Implement calendar synchronization capabilities
-  - Add email task creation integration
-  - Create API endpoints for third-party integrations
-  - _Requirements: 10.3_
+- [ ] 12.2 Create data import system
+  - Build ImportService supporting CSV and JSON formats
+  - Implement data validation and duplicate detection
+  - Add import progress tracking and error reporting
+  - Support popular todo app format imports
+  - _Requirements: 10.1, 10.4, 10.5_
 
-- [ ] 12. Implement security and privacy features
-- [ ] 12.1 Add data encryption
-  - Implement encryption for sensitive data at rest
-  - Add TLS encryption for all data transmission
-  - Create secure key management system
-  - _Requirements: 11.2, 11.3_
+- [ ] 13. Add security and privacy features (Phase 6)
+- [ ] 13.1 Implement enhanced security
+  - Add data encryption for sensitive information
+  - Implement secure key management
+  - Create audit logging for sensitive operations
+  - Add authentication rate limiting and protection
+  - _Requirements: 11.1, 11.2, 11.3_
 
-- [ ] 12.2 Build privacy controls
+- [ ] 13.2 Build privacy controls
   - Implement user data export functionality
   - Create account deletion with complete data removal
   - Add granular privacy settings and data sharing controls
+  - Include GDPR compliance features
   - _Requirements: 11.4, 11.5_
 
-- [ ] 12.3 Add security monitoring
-  - Implement security breach detection and notification
-  - Add authentication rate limiting and protection
-  - Create audit logging for sensitive operations
-  - _Requirements: 11.1, 11.5_
-
-- [ ] 13. Create comprehensive testing suite
-- [ ] 13.1 Write unit tests
-  - Create unit tests for all models, repositories, and services
+- [ ] 14. Create comprehensive testing suite
+- [ ] 14.1 Write unit tests for core functionality
+  - Create unit tests for models, repositories, and services
   - Implement test coverage for business logic and validation
-  - Add mocking for external dependencies
+  - Add mocking for external dependencies (Supabase)
+  - Test Riverpod providers and state management
   - _Requirements: All requirements validation_
 
-- [ ] 13.2 Build integration tests
+- [ ] 14.2 Build integration and widget tests
   - Create integration tests for API and database operations
-  - Test real-time synchronization and collaboration features
-  - Add offline/online sync scenario testing
+  - Add widget tests for UI components and user interactions
+  - Test authentication flows and protected routes
+  - Include offline/online sync scenario testing
   - _Requirements: All requirements validation_
 
-- [ ] 13.3 Implement end-to-end tests
-  - Create complete user workflow tests
-  - Test cross-platform compatibility and responsive design
-  - Add performance and load testing
-  - _Requirements: All requirements validation_
-
-- [ ] 14. Final integration and deployment preparation
-- [ ] 14.1 Integrate all components
+- [ ] 15. Final integration and deployment preparation
+- [ ] 15.1 Integrate all components and optimize
   - Wire together all services and repositories
   - Implement final error handling and edge case management
-  - Add final performance optimizations and caching
+  - Add performance optimizations and caching
+  - Conduct final testing and bug fixes
   - _Requirements: All requirements integration_
 
-- [ ] 14.2 Prepare deployment configuration
+- [ ] 15.2 Prepare for deployment
   - Configure production environment settings
-  - Set up CI/CD pipeline for automated testing and deployment
-  - Create deployment documentation and runbooks
+  - Set up build configurations for all platforms
+  - Create deployment documentation
+  - Prepare app store assets and descriptions
   - _Requirements: Production readiness_
