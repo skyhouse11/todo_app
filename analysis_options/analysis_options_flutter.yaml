@@ -1,0 +1,35 @@
+# Flutter-specific analysis rules
+analyzer:
+  rules:
+    # Flutter Framework Rules
+    - avoid-border-all
+    - avoid-returning-widgets
+    - avoid-unnecessary-setstate
+    - avoid-wrapping-in-padding
+    - prefer-const-border-radius
+    - prefer-correct-edge-insets-constructor
+    - prefer-extracting-callbacks
+    - prefer-single-widget-per-file
+    - prefer-widget-private-members
+    - use-setstate-synchronously
+
+linter:
+  rules:
+    # Flutter-specific rules
+    avoid_web_libraries_in_flutter: true
+    no_logic_in_create_state: true
+    prefer_const_constructors_in_immutables: true
+    prefer_const_constructors: true
+    prefer_const_literals_to_create_immutables: true
+    prefer_const_declarations: true
+    prefer_final_fields: true
+    prefer_relative_imports: true
+    sized_box_for_whitespace: true
+    sized_box_shrink_expand: true
+    use_build_context_synchronously: true
+    use_key_in_widget_constructors: true
+    use_super_parameters: true
+    
+    # Widget-specific rules
+    avoid_unnecessary_containers: true
+    avoid_unused_constructor_parameters: true

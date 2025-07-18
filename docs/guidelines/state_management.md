@@ -816,7 +816,7 @@ final result = switch (model) {
 
 ```dart
 @freezed
-class AsyncState<T> with _$AsyncState<T> {
+sealed class AsyncState<T> with _$AsyncState<T> {
   const factory AsyncState.loading() = _Loading;
   const factory AsyncState.data(T data) = _Data;
   const factory AsyncState.error(String message, [StackTrace? stackTrace]) = _Error;

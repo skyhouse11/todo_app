@@ -74,7 +74,7 @@ part 'user.freezed.dart';
 part 'user.g.dart';
 
 @freezed
-class User with _$User {
+abstract class User with _$User {
   const factory User({
     required String id,
     required String name,
@@ -149,12 +149,12 @@ Widget buildStateWidget<T>(LoadingState<T> state) {
 
 ```dart
 @freezed
-class Point with _$Point {
+abstract class Point with _$Point {
   const factory Point(double x, double y) = _Point;
 }
 
 @freezed
-class Rectangle with _$Rectangle {
+abstract class Rectangle with _$Rectangle {
   const factory Rectangle(Point topLeft, Point bottomRight) = _Rectangle;
 }
 
@@ -226,7 +226,7 @@ List<Todo> filterTodos(List<Todo> todos, TodoFilter filter) {
 
 ```dart
 @freezed
-class Todo with _$Todo {
+abstract class Todo with _$Todo {
   const factory Todo({
     required String id,
     required String title,
@@ -254,7 +254,7 @@ String _priorityToJson(Priority priority) => priority.name;
 
 ```dart
 @freezed
-class Project with _$Project {
+abstract class Project with _$Project {
   const factory Project({
     required String id,
     required String name,
@@ -290,7 +290,7 @@ final project = Project.fromJson({
 
 ```dart
 @freezed
-class AppSettings with _$AppSettings {
+abstract class AppSettings with _$AppSettings {
   const factory AppSettings({
     @Default(ThemeMode.system) ThemeMode themeMode,
     @Default(Locale('en')) Locale locale,
@@ -332,7 +332,7 @@ AppSettings toggleTheme(AppSettings settings) {
 
 ```dart
 @freezed
-class TodoList with _$TodoList {
+abstract class TodoList with _$TodoList {
   const factory TodoList({
     required String id,
     required String name,
@@ -611,7 +611,7 @@ class MockTodo {
 ```dart
 // Use const constructors when possible
 @freezed
-class ImmutableConfig with _$ImmutableConfig {
+abstract class ImmutableConfig with _$ImmutableConfig {
   const factory ImmutableConfig({
     required String apiUrl,
     required int timeout,
@@ -630,7 +630,7 @@ const defaultConfig = ImmutableConfig(
 
 ```dart
 @freezed
-class OptimizedTodoList with _$OptimizedTodoList {
+abstract class OptimizedTodoList with _$OptimizedTodoList {
   const factory OptimizedTodoList({
     required String id,
     required String name,
@@ -666,7 +666,7 @@ extension OptimizedTodoListOperations on OptimizedTodoList {
 
 ```dart
 @freezed
-class LazyComputedData with _$LazyComputedData {
+abstract class LazyComputedData with _$LazyComputedData {
   const factory LazyComputedData({
     required List<int> numbers,
   }) = _LazyComputedData;
@@ -970,7 +970,7 @@ const factory TodoItem.delete() = _Delete;
 ```dart
 // Group related models in the same file
 @freezed
-class Todo with _$Todo {
+abstract class Todo with _$Todo {
   const factory Todo({
     required String id,
     required String title,
@@ -981,7 +981,7 @@ class Todo with _$Todo {
 }
 
 @freezed
-class TodoList with _$TodoList {
+abstract class TodoList with _$TodoList {
   const factory TodoList({
     required String id,
     required List<Todo> todos,
@@ -1029,7 +1029,7 @@ extension TodoListOperations on TodoList {
 /// final json = todo.toJson();
 /// ```
 @freezed
-class Todo with _$Todo {
+abstract class Todo with _$Todo {
   /// Creates a new todo item.
   /// 
   /// [id] must be unique across all todos.

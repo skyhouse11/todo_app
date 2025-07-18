@@ -459,7 +459,7 @@ part 'todo.freezed.dart';
 part 'todo.g.dart';
 
 @freezed
-class Todo with _$Todo {
+abstract class Todo with _$Todo {
   const factory Todo({
     required String id,
     required String title,
@@ -1188,7 +1188,7 @@ class EdgeFunctionException implements Exception {
 
 // Response models
 @freezed
-class EmailResult with _$EmailResult {
+abstract class EmailResult with _$EmailResult {
   const factory EmailResult({
     required String messageId,
     required bool sent,
@@ -1200,7 +1200,7 @@ class EmailResult with _$EmailResult {
 }
 
 @freezed
-class AnalyticsData with _$AnalyticsData {
+abstract class AnalyticsData with _$AnalyticsData {
   const factory AnalyticsData({
     required Map<String, int> metrics,
     required DateTime generatedAt,
@@ -1212,7 +1212,7 @@ class AnalyticsData with _$AnalyticsData {
 }
 
 @freezed
-class ProcessingResult with _$ProcessingResult {
+abstract class ProcessingResult with _$ProcessingResult {
   const factory ProcessingResult({
     required String jobId,
     required String status,
@@ -1226,7 +1226,7 @@ class ProcessingResult with _$ProcessingResult {
 }
 
 @freezed
-class ProcessingUpdate with _$ProcessingUpdate {
+abstract class ProcessingUpdate with _$ProcessingUpdate {
   const factory ProcessingUpdate({
     required String jobId,
     required String status,
