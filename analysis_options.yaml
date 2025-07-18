@@ -16,4 +16,8 @@ analyzer:
   plugins:
     - custom_lint
 
+dart_code_metrics:
+  extends:
+    - recommended
+
 # Note: All analyzer and linter rules are now defined in their respective files in the analysis_options/ directory.

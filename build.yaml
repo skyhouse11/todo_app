@@ -17,12 +17,12 @@ targets:
           generate_riverpod_debug_name: true
           # Enable scoped providers for better performance
           generate_scoped_providers: true
-        # Custom output configuration
-        build_extensions:
-          ".dart": [".g.dart"]
-        # Performance optimizations
-        runs_before: ["json_serializable|json_serializable"]
-        applies_builders: ["source_gen|combining_builder"]
+          # Custom output configuration
+          build_extensions:
+             ".dart": [".g.dart"]
+          # Performance optimizations
+          runs_before: ["json_serializable|json_serializable"]
+          applies_builders: ["source_gen|combining_builder"]
 
       # Freezed code generation
       freezed|freezed:
@@ -41,10 +41,11 @@ targets:
           use_pattern_matching: true
           # Generate sealed classes for better performance
           generate_sealed_classes: true
-        build_extensions:
-          ".dart": [".freezed.dart"]
-        # Dependency tracking
-        runs_before: ["json_serializable|json_serializable"]
+          # Custom output configuration
+          build_extensions:
+            ".dart": [".freezed.dart"]
+          # Dependency tracking
+          runs_before: ["json_serializable|json_serializable"]
 
       # JSON serialization
       json_serializable|json_serializable:
@@ -64,307 +65,30 @@ targets:
           generic_argument_factories: false
           ignore_unannotated: false
           include_if_null: true
-          # Use new JSON features
-          constructor_name: ""
           create_field_map: false
           create_per_field_to_json: false
-        build_extensions:
-          ".dart": [".g.dart"]
 
       # Go Router code generation
       go_router_builder|go_router_builder:
         enabled: true
         generate_for:
-          - lib/**
+          - lib/router/**.dart
+          - lib/screens/**.dart
         options:
-          # Generate type-safe routes
+          # Generate type-safe routes with enhanced features
           generate_go_route_information: true
-        build_extensions:
-          ".dart": [".g.dart"]
-
-      # Custom lint rules
-      custom_lint_builder|custom_lint_builder:
-        enabled: true
-        generate_for:
-          - lib/**
-          - test/**
-
-  # Development target with enhanced debugging
-  development:
-    builders:
-      riverpod_generator|riverpod_generator:
-        options:
-          # Enhanced debugging for development
-          generate_riverpod_debug_name: true
-          generate_debug_extensions: true
-          # Enable hot reload optimizations
-          enable_hot_reload_optimizations: true
-
-      freezed|freezed:
-        options:
-          # Additional debugging information
-          generate_debug_methods: true
-          # Enable assertion checks
-          assert_generation: true
-
-      json_serializable|json_serializable:
-        options:
-          # Enhanced error checking in development
-          checked: true
-          disallow_unrecognized_keys: true
-          # Generate field maps for debugging
-          create_field_map: true
-
-  # Production target with optimizations
-  production:
-    builders:
-      riverpod_generator|riverpod_generator:
-        options:
-          # Optimize for production
-          generate_riverpod_debug_name: false
-          generate_debug_extensions: false
-          # Enable tree shaking optimizations
-          enable_tree_shaking: true
-
-      freezed|freezed:
-        options:
-          # Minimal code generation for production
-          generate_debug_methods: false
-          assert_generation: false
-          # Optimize for size
-          optimize_for_size: true
-
-      json_serializable|json_serializable:
-        options:
-          # Production optimizations
-          checked: false
-          create_field_map: false
-          # Minimize generated code
-          minimize_to_json: true
-
-  # Test target for testing scenarios
-  test:
-    sources:
-      - "test/**"
-      - "lib/**"
-    builders:
-      riverpod_generator|riverpod_generator:
-        options:
-          # Test-specific configurations
-          generate_test_helpers: true
-          generate_mock_providers: true
-
-      freezed|freezed:
-        options:
-          # Generate test utilities
-          generate_test_methods: true
-
-# Global build settings
-global_options:
-  # Incremental build optimization
-  build_runner:
-    # Enable incremental builds
-    incremental: true
-    # Use build cache for faster builds
-    use_build_cache: true
-    # Parallel execution settings
-    max_concurrent_builds: 4
-    # Memory optimization
-    memory_limit: "2GB"
-    
-    # Output directory configuration
-    build_to: "build"
-    cache_dir: ".dart_tool/build"
-    
-    # File watching and hot reload
-    watch_delay: 250ms
-    debounce_delay: 250ms
-    
-    # Logging configuration
-    log_level: "info" # options: severe, warning, info, config, fine, finer, finest
-    verbose: false
-    
-    # Performance monitoring
-    track_performance: true
-    performance_tracking_dir: ".dart_tool/build_performance"
-
-# Platform-specific configurations
-platforms:
-  # Web-specific optimizations
-  web:
-    builders:
-      json_serializable|json_serializable:
-        options:
-          # Web-optimized JSON handling
-          any_map: true
-          # Reduce bundle size
-          explicit_to_json: false
-
-  # Mobile-specific optimizations  
-  mobile:
-    builders:
-      freezed|freezed:
-        options:
-          # Mobile performance optimizations
-          generate_copyWith: true
-          # Reduce memory footprint
-          optimize_for_memory: true
-
-  # Desktop-specific configurations
-  desktop:
-    builders:
-      riverpod_generator|riverpod_generator:
-        options:
-          # Desktop-specific provider optimizations
-          enable_desktop_optimizations: true
-
-# Caching strategies
-cache:
-  # Enable aggressive caching for faster builds
-  enabled: true
-  # Cache invalidation rules
-  invalidate_on:
-    - "pubspec.yaml"
-    - "analysis_options.yaml"
-    - "build.yaml"
-  # Cache size limits
-  max_cache_size: "1GB"
-  # Cache cleanup
-  cleanup_threshold: 0.8
-  auto_cleanup: true
-
-# Dependency tracking configuration
-dependency_tracking:
-  # Track file dependencies for incremental builds
-  enabled: true
-  # Include transitive dependencies
-  include_transitive: true
-  # Dependency graph optimization
-  optimize_graph: true
-
-# Error handling and debugging
-debugging:
-  # Generate source maps for debugging
-  generate_source_maps: true
-  # Keep intermediate files for debugging
-  keep_intermediate_files: false
-  # Debug output directory
-  debug_output_dir: ".dart_tool/debug"
-  
-  # Error reporting
-  detailed_errors: true
-  stack_trace_on_error: true
-  
-  # Performance profiling
-  enable_profiling: false
-  profiling_output: ".dart_tool/build_profile.json"
-
-# Custom builder configurations
-custom_builders:
-  # Asset generation builder
-  asset_generator:
-    import: "package:build_runner/build_runner.dart"
-    builder_factories: ["assetBuilder"]
-    build_extensions:
-      ".assets": [".g.dart"]
-    auto_apply: none
-    required_inputs: [".assets"]
-
-  # Localization builder
-  l10n_generator:
-    import: "package:flutter_localizations/flutter_localizations.dart"
-    builder_factories: ["l10nBuilder"]
-    build_extensions:
-      ".arb": [".g.dart"]
-    auto_apply: dependents
-    required_inputs: [".arb"]
-
-# Build phases for optimal execution order
-build_phases:
-  # Phase 1: Generate base models
-  - name: "models"
-    builders:
-      - "freezed|freezed"
-      - "json_serializable|json_serializable"
-    
-  # Phase 2: Generate providers
-  - name: "providers"
-    builders:
-      - "riverpod_generator|riverpod_generator"
-    depends_on: ["models"]
-    
-  # Phase 3: Generate routes
-  - name: "routing"
-    builders:
-      - "go_router_builder|go_router_builder"
-    depends_on: ["providers"]
-    
-  # Phase 4: Final optimizations
-  - name: "optimization"
-    builders:
-      - "custom_lint_builder|custom_lint_builder"
-    depends_on: ["routing"]
-
-# File naming patterns
-file_patterns:
-  # Generated file suffixes
-  generated_suffixes:
-    - ".g.dart"
-    - ".freezed.dart"
-    - ".config.dart"
-  
-  # Exclude patterns from builds
-  exclude_patterns:
-    - "**/*.mocks.dart"
-    - "**/generated/**"
-    - "**/.dart_tool/**"
-  
-  # Include patterns for builds
-  include_patterns:
-    - "lib/**/*.dart"
-    - "test/**/*.dart"
-
-# Resource management
-resources:
-  # Memory management
-  memory:
-    # Initial heap size
-    initial_heap: "512MB"
-    # Maximum heap size
-    max_heap: "2GB"
-    # Garbage collection tuning
-    gc_strategy: "parallel"
-  
-  # CPU utilization
-  cpu:
-    # Number of worker threads
-    worker_threads: 4
-    # Thread priority
-    priority: "normal"
-  
-  # I/O optimization
-  io:
-    # Buffer sizes
-    read_buffer_size: "64KB"
-    write_buffer_size: "64KB"
-    # Concurrent I/O operations
-    max_concurrent_io: 8
-
-# Monitoring and metrics
-monitoring:
-  # Build metrics collection
-  collect_metrics: true
-  metrics_output: ".dart_tool/build_metrics.json"
-  
-  # Performance thresholds
-  thresholds:
-    build_time_warning: "30s"
-    build_time_error: "120s"
-    memory_usage_warning: "1GB"
-    memory_usage_error: "2GB"
-  
-  # Notification settings
-  notifications:
-    on_build_complete: false
-    on_build_error: true
-    on_performance_threshold: true
+          # Enable debug logging for route generation
+          debug_logging: true
+          # Generate route helper methods
+          generate_route_helper: true
+          # Generate route names as constants
+          generate_route_names: true
+          # Custom output configuration
+          build_extensions:
+            ".dart": [".g.dart"]
+          # Ensure proper dependency ordering
+          runs_after:
+            - "freezed|freezed"
+            - "json_serializable|json_serializable"
+          applies_builders:
+            - "source_gen|combining_builder"

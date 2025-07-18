@@ -15,7 +15,7 @@ linter:
 
     # Code Documentation
     always_declare_return_types: true
-    always_specify_types: true
+    always_specify_types: false
     annotate_overrides: true
     avoid_annotating_with_dynamic: true
     avoid_relative_lib_imports: true

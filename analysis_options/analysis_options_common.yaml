@@ -54,7 +54,7 @@ analyzer:
 linter:
   rules:
     # Error Prevention
-    always_use_package_imports: true
+    always_use_package_imports: false
     avoid_dynamic_calls: true
     avoid_empty_else: true
     avoid_print: true

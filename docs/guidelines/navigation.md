@@ -27,25 +27,15 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final routerProvider = Provider<GoRouter>((ref) {
+@riverpod
+GoRouter router(Ref ref) {
   return GoRouter(
     initialLocation: '/',
     debugLogDiagnostics: true,
-    routes: [
-      GoRoute(
-        path: '/',
-        name: 'home',
-        builder: (context, state) => const HomeScreen(),
-      ),
-      GoRoute(
-        path: '/todos',
-        name: 'todos',
-        builder: (context, state) => const TodosScreen(),
-      ),
-    ],
+    routes: $appRoutes,
     errorBuilder: (context, state) => ErrorScreen(error: state.error),
   );
-});
+}
 ```
 
 ### Integration with MaterialApp
