@@ -11,10 +11,13 @@ environment:
   sdk: ^3.8.1
 
 dependencies:
+  sentry_flutter: ^9.4.1
+  flutter_dotenv: ^5.1.0
   flutter:
     sdk: flutter
 
 dev_dependencies:
+  sentry_dart_plugin: ^3.1.1
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
@@ -23,3 +26,8 @@ flutter:
   uses-material-design: true
   assets:
     - supabase_config.env
+sentry:
+  upload_debug_symbols: true
+  upload_source_maps: true
+  project: todo-app
+  org: ok-soft

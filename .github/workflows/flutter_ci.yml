@@ -16,6 +16,15 @@ jobs:
         with:
           flutter-version: '3.32.5'
           cache: true
+      - name: Create env file from secrets
+        run: |
+          echo "SUPABASE_URL=$SUPABASE_URL" >> supabase_config.env
+          echo "SUPABASE_ANON_KEY=$SUPABASE_KEY" >> supabase_config.env
+          echo "SENTRY_DSN=$SENTRY_DSN" >> supabase_config.env
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
       - name: Install dependencies
         run: flutter pub get
       - name: Analyze

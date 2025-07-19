@@ -3,10 +3,10 @@
 This backlog derives from EARS user stories and the design document. Use labels `[P1]`, `[P2]`, `[P3]` for priority.
 
 ## Phase 0 – Foundation
-- [P1] Set up Flutter project with FVM & `fvm install 3.32.0`
-- [P1] Configure Supabase credentials in `supabase_config.env`
-- [P1] Add GitHub Actions workflow: `flutter analyze`, `flutter test`, build artifacts
-- [P2] Integrate Sentry and remote config placeholders
+- [P1] ~~Set up Flutter project with FVM & `fvm install 3.32.5`~~ ✅
+- [P1] ~~Configure Supabase credentials in `supabase_config.env`~~ ✅
+- [P1] ~~Add GitHub Actions workflow: `flutter analyze`, `flutter test`, build artifacts~~ ✅
+- [P2] ~~Integrate Sentry and remote config placeholders~~ ✅
 
 ## Phase 1 – MVP
 ### Auth
