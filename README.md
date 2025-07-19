@@ -12,9 +12,9 @@ A modern, offline-first todo application built with Flutter 3 and Supabase. The 
 
 ## Quick Start
 ```bash
-# Install Flutter 3.32 via FVM (Phase 0 task)
-fvm install 3.32.0
-fvm use 3.32.0
+# Install Flutter 3.32.5 via FVM (Phase 0 task)
+fvm install 3.32.5
+fvm use 3.32.5
 
 # Get packages
 flutter pub get
