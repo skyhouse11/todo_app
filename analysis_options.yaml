@@ -5,11 +5,6 @@
 # Include Flutter's recommended lints and custom analysis configuration files
 include:
   - package:flutter_lints/flutter.yaml
-  - analysis_options/analysis_options_common.yaml
-  - analysis_options/analysis_options_style.yaml
-  - analysis_options/analysis_options_flutter.yaml
-  - analysis_options/analysis_options_documentation.yaml
-  - analysis_options/analysis_options_riverpod.yaml
 
 # Analyzer plugins
 analyzer:
